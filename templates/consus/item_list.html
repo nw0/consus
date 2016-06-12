@@ -1,7 +1,7 @@
 {% extends "consus/base.html" %}
 
 {% block content %}
-<h1>Items</h1>
+<h1>Items <a class="btn btn-primary" href="{% url 'consus:item_create' %}" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add</a></h1>
 {% if object_list %}
 <div class="table-responsive">
     <table class="table table-striped">

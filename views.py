@@ -28,3 +28,13 @@ class LocationCreate(generic.edit.CreateView):
 class ItemList(generic.ListView):
     def get_queryset(self):
         return Item.objects.filter(owner=self.request.user).order_by("id")
+
+@method_decorator(decs, name='dispatch')
+class ItemCreate(generic.edit.CreateView):
+    model       = Item
+    success_url = reverse_lazy("consus:item_list")
+    fields      = ["name", "item_type", "location", "comment", ]
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(ItemCreate, self).form_valid(form)

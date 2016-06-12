@@ -13,6 +13,11 @@ urlpatterns = [
             name="item_list",
         ),
 
+    url (   r'^items/new/$',
+            views.ItemCreate.as_view(),
+            name="item_create",
+        ),
+
     url (   r'^locations/$',
             views.LocationList.as_view(),
             name="location_list",
