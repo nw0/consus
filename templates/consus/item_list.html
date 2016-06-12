@@ -16,7 +16,7 @@
             <tr>
                 <td>{{ object.name }}</td>
                 <td>{{ object.item_type }}</td>
-                <td>{{ object.location }}</td>
+                <td><a href="{% url 'consus:location_detail' object.location.id %}">{{ object.location }}</a></td>
                 <td>{{ object.comment }}</td>
             </tr>
             {% endfor %}

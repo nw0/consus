@@ -15,6 +15,12 @@ class LocationList(generic.ListView):
         return Location.objects.filter(owner=self.request.user).order_by("id")
 
 @method_decorator(decs, name='dispatch')
+class LocationDetail(generic.DetailView):
+    def get_queryset(self):
+        return Location.objects.filter(id=self.kwargs['pk'],
+                                    owner=self.request.user)
+
+@method_decorator(decs, name='dispatch')
 class LocationCreate(generic.edit.CreateView):
     model       = Location
     success_url = reverse_lazy("consus:location_list")

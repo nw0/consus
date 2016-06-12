@@ -13,7 +13,7 @@
         <tbody>
             {% for object in object_list %}
             <tr>
-                <td>{{ object.name }}</td>
+                <td><a href="{% url 'consus:location_detail' object.id %}">{{ object.name }}</a></td>
                 <td>{{ object.parent }}</td>
                 <td>{{ object.comment }}</td>
             </tr>

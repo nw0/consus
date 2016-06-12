@@ -23,6 +23,11 @@ urlpatterns = [
             name="location_list",
         ),
 
+    url (   r'^locations/(?P<pk>\d+)/$',
+            views.LocationDetail.as_view(),
+            name="location_detail",
+        ),
+
     url (   r'^locations/new/$',
             views.LocationCreate.as_view(),
             name="location_create",

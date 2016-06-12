@@ -1,0 +1,23 @@
+{% extends "consus/base.html" %}
+
+{% block content %}
+<h1>Location</h1>
+{% if object %}
+<h2>{{ object.name }}</h2>
+{% if object.comment %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Comment</h3>
+    </div>
+    <div class="panel-body">
+        {{ object.comment }}
+    </div>
+</div>
+{% endif %}
+{% if object.parent %}
+<p>Parent location: <a href="{% url 'consus:location_detail' object.parent.id %}">{{ object.parent }}</a></p>
+{% endif %}
+{% else %}
+<p>Invalid location</p>
+{% endif %}
+{% endblock content %}
