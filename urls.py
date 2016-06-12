@@ -17,4 +17,9 @@ urlpatterns = [
             views.LocationList.as_view(),
             name="location_list",
         ),
+
+    url (   r'^locations/new/$',
+            views.LocationCreate.as_view(),
+            name="location_create",
+        ),
 ]
