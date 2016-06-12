@@ -1,0 +1,27 @@
+{% extends "consus/base.html" %}
+
+{% block content %}
+<h1>Locations</h1>
+{% if object_list %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <th>Name</th>
+            <th>Parent</th>
+            <th>Comment</th>
+        </thead>
+        <tbody>
+            {% for object in object_list %}
+            <tr>
+                <td>{{ object.name }}</td>
+                <td>{{ object.parent }}</td>
+                <td>{{ object.comment }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p>No locations.</p>
+{% endif %}
+{% endblock content %}

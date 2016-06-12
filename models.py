@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 
 class Location(models.Model):
     name        = models.CharField(max_length=20)
-    comment     = models.CharField(max_length=40)
-    parent      = models.ForeignKey('self', default=None, null=True)
+    comment     = models.CharField(max_length=40, blank=True)
+    parent      = models.ForeignKey('self', default=None, null=True, blank=True)
     owner       = models.ForeignKey(User)
     last_mod    = models.DateTimeField(auto_now=True)
 
@@ -16,7 +16,7 @@ class Location(models.Model):
 class Item(models.Model):
     name        = models.CharField(max_length=20)
     item_type   = models.CharField(max_length=20)
-    comment     = models.CharField(max_length=40)
+    comment     = models.CharField(max_length=40, blank=True)
     location    = models.ForeignKey(Location)
     owner       = models.ForeignKey(User)
     last_mod    = models.DateTimeField(auto_now=True)
