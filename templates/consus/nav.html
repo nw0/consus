@@ -1,0 +1,13 @@
+{% load consus_extras %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'consus:index' %}">Tuna</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="{% nav_active request 'consus:item_list' %}"><a href="{% url 'consus:item_list' %}">Items</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,29 @@
+{% extends "consus/base.html" %}
+
+{% block content %}
+<h1>Items</h1>
+{% if object_list %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Location</th>
+            <th>Comment</th>
+        </thead>
+        <tbody>
+            {% for object in object_list %}
+            <tr>
+                <td>{{ object.name }}</td>
+                <td>{{ object.item_type }}</td>
+                <td>{{ object.location }}</td>
+                <td>{{ object.comment }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p>No items.</p>
+{% endif %}
+{% endblock content %}
