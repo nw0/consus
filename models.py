@@ -10,6 +10,9 @@ class Location(models.Model):
     owner       = models.ForeignKey(User)
     last_mod    = models.DateTimeField(auto_now=True)
 
+    def item_list(self):
+        return self.item_set.all()
+
     def __str__(self):
         return "%s (%d)" % (self.name, self.id)
 

@@ -17,6 +17,33 @@
 {% if object.parent %}
 <p>Parent location: <a href="{% url 'consus:location_detail' object.parent.id %}">{{ object.parent }}</a></p>
 {% endif %}
+
+{% if object.item_list %}
+<h3>Objects in this location</h3>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Comment</th>
+        </thead>
+        <tbody>
+            {% for object in object.item_list %}
+            <tr>
+                <td>#{{ object.id }}</td>
+                <td>{{ object.name }}</td>
+                <td>{{ object.item_type }}</td>
+                <td>{{ object.comment }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p>No items</p>
+{% endif %}
+
 {% else %}
 <p>Invalid location</p>
 {% endif %}
