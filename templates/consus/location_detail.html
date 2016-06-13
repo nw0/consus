@@ -1,4 +1,5 @@
 {% extends "consus/base.html" %}
+{% load consus_extras %}
 
 {% block content %}
 <h1>Location</h1>
@@ -42,6 +43,11 @@
 </div>
 {% else %}
 <p>No items</p>
+{% endif %}
+
+{% if object.sublocations %}
+<h3>Sublocations</h3>
+{{ object.sublocations|subloc_print }}
 {% endif %}
 
 {% else %}

@@ -13,6 +13,9 @@ class Location(models.Model):
     def item_list(self):
         return self.item_set.all()
 
+    def sublocations(self):
+        return self.location_set.all()
+
     def __str__(self):
         return "%s (%d)" % (self.name, self.id)
 
