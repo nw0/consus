@@ -32,4 +32,9 @@ urlpatterns = [
             views.LocationCreate.as_view(),
             name="location_create",
         ),
+
+    url (   r'^locations/(?P<pk>\d+)/edit/$',
+            views.LocationEdit.as_view(),
+            name="location_edit",
+        ),
 ]

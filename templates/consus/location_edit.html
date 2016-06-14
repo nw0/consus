@@ -1,0 +1,15 @@
+{% extends "consus/base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+<h1>Edit Location</h1>
+<div class="col-lg-4">
+    <form method="post" action="{% url 'consus:location_edit' object.id %}">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button type="submit" class="btn btn-primary">Edit</button>
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock content %}

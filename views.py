@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import generic
@@ -29,6 +29,17 @@ class LocationCreate(generic.edit.CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super(LocationCreate, self).form_valid(form)
+
+
+@method_decorator(decs, name='dispatch')
+class LocationEdit(generic.UpdateView):
+    model       = Location
+    fields      = ["name", "comment", "parent", ]
+    template_name = "consus/location_edit.html"
+
+    def get_success_url(self):
+        return reverse("consus:location_detail", args=[self.object.id])
+
 
 @method_decorator(decs, name='dispatch')
 class ItemList(generic.ListView):
