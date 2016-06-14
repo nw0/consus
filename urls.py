@@ -18,6 +18,11 @@ urlpatterns = [
             name="item_create",
         ),
 
+    url (   r'^items/(?P<pk>\d+)/edit/$',
+            views.ItemEdit.as_view(),
+            name="item_edit",
+        ),
+
     url (   r'^locations/$',
             views.LocationList.as_view(),
             name="location_list",

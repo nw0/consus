@@ -57,3 +57,14 @@ class ItemCreate(generic.edit.CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super(ItemCreate, self).form_valid(form)
+
+@method_decorator(decs, name='dispatch')
+class ItemEdit(generic.UpdateView):
+    model       = Item
+    success_url = reverse_lazy("consus:item_list")
+    fields      = ["name", "item_type", "location", "comment", ]
+
+    def form_valid(self, form):
+        if form.instance.owner != self.request.user:
+            raise ValidationError("Wrong user")
+        return super(ItemEdit, self).form_valid(form)
