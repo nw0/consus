@@ -68,6 +68,7 @@ class ItemEdit(generic.UpdateView):
     model       = Item
     success_url = reverse_lazy("consus:item_list")
     fields      = ["name", "item_type", "location", "comment", ]
+    template_name = "consus/item_edit.html"
 
     def form_valid(self, form):
         if form.instance.owner != self.request.user:
