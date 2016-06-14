@@ -39,6 +39,11 @@ class LocationEdit(generic.UpdateView):
     fields      = ["name", "comment", "parent", ]
     template_name = "consus/location_edit.html"
 
+    def form_valid(self, form):
+        if form.instance.owner != self.request.user:
+            raise ValidationError("Wrong owner")
+        return super(LocationEdit, self).form_valid(form)
+
     def get_success_url(self):
         return reverse("consus:location_detail", args=[self.object.id])
 
