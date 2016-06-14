@@ -23,12 +23,14 @@ class LocationDetail(generic.DetailView):
 @method_decorator(decs, name='dispatch')
 class LocationCreate(generic.edit.CreateView):
     model       = Location
-    success_url = reverse_lazy("consus:location_list")
     fields      = ["name", "comment", "parent", ]
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super(LocationCreate, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse("consus:location_detail", args=[self.object.id])
 
 
 @method_decorator(decs, name='dispatch')
