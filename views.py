@@ -1,8 +1,12 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.http import HttpResponse
 from django.shortcuts import render
+from django.template import loader
 from django.utils.decorators import method_decorator
 from django.views import generic
+
+import json
 
 from .admin import other_checks
 from .forms import LocationForm, ItemForm
@@ -14,6 +18,26 @@ decs = [ login_required, user_passes_test(other_checks), ]
 class LocationList(generic.ListView):
     def get_queryset(self):
         return Location.objects.filter(owner=self.request.user).order_by("id")
+
+def extract_locations(locs):
+    ans = []
+    for loc in locs:
+        locd = {"name": loc.name, "is_location": True, "children": extract_locations(Location.objects.filter(parent=loc))}
+        ans.append(locd)
+    return ans
+
+@login_required
+@user_passes_test(other_checks)
+def LocationListJSON(request):
+    loc_list = Location.objects.filter(owner=request.user, parent=None)
+    ans = {"name": "locations", "is_root": True, "children": extract_locations(loc_list)}
+    return HttpResponse(json.dumps(ans))
+
+@login_required
+@user_passes_test(other_checks)
+def LocationTree(request):
+    template = loader.get_template("consus/location_tree.html")
+    return HttpResponse(template.render({}, request))
 
 @method_decorator(decs, name='dispatch')
 class LocationDetail(generic.DetailView):
@@ -43,6 +67,7 @@ class LocationEdit(generic.UpdateView):
     def form_valid(self, form):
         if form.instance.owner != self.request.user:
             raise ValidationError("Wrong owner")
+        #   Check for loops
         return super(LocationEdit, self).form_valid(form)
 
     def get_success_url(self):

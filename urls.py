@@ -28,6 +28,16 @@ urlpatterns = [
             name="location_list",
         ),
 
+    url (   r'^locations/tree/$',
+            views.LocationTree,
+            name="location_tree",
+        ),
+
+    url (   r'^locations/json/$',
+            views.LocationListJSON,
+            name="location_list_json",
+        ),
+
     url (   r'^locations/(?P<pk>\d+)/$',
             views.LocationDetail.as_view(),
             name="location_detail",
