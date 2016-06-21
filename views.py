@@ -19,18 +19,27 @@ class LocationList(generic.ListView):
     def get_queryset(self):
         return Location.objects.filter(owner=self.request.user).order_by("id")
 
-def extract_locations(locs):
+def extract_locations(locs, get_items=False):
     ans = []
     for loc in locs:
-        locd = {"name": loc.name, "is_location": True, "children": extract_locations(Location.objects.filter(parent=loc))}
-        ans.append(locd)
+        child_items = []
+        if get_items:
+            for item in loc.item_set.all():
+                child_items.append({"name": item.name})
+        child_locs = extract_locations( Location.objects.filter(parent=loc),
+                                        get_items)
+        ans.append({"name": loc.name,
+                    "is_location": True,
+                    "children": child_items + child_locs})
     return ans
 
 @login_required
 @user_passes_test(other_checks)
 def LocationListJSON(request):
     loc_list = Location.objects.filter(owner=request.user, parent=None)
-    ans = {"name": "locations", "is_root": True, "children": extract_locations(loc_list)}
+    ans = { "name": "locations",
+            "is_root": True,
+            "children": extract_locations(loc_list, True)}
     return HttpResponse(json.dumps(ans))
 
 @login_required
