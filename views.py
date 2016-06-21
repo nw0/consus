@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views import generic
 
 from .admin import other_checks
+from .forms import LocationForm, ItemForm
 from .models import Location, Item
 
 decs = [ login_required, user_passes_test(other_checks), ]
@@ -23,7 +24,7 @@ class LocationDetail(generic.DetailView):
 @method_decorator(decs, name='dispatch')
 class LocationCreate(generic.edit.CreateView):
     model       = Location
-    fields      = ["name", "comment", "parent", ]
+    form_class  = LocationForm
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -36,7 +37,7 @@ class LocationCreate(generic.edit.CreateView):
 @method_decorator(decs, name='dispatch')
 class LocationEdit(generic.UpdateView):
     model       = Location
-    fields      = ["name", "comment", "parent", ]
+    form_class  = LocationForm
     template_name = "consus/location_edit.html"
 
     def form_valid(self, form):
@@ -57,7 +58,7 @@ class ItemList(generic.ListView):
 class ItemCreate(generic.edit.CreateView):
     model       = Item
     success_url = reverse_lazy("consus:item_list")
-    fields      = ["name", "item_type", "location", "comment", ]
+    form_class  = ItemForm
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -67,7 +68,7 @@ class ItemCreate(generic.edit.CreateView):
 class ItemEdit(generic.UpdateView):
     model       = Item
     success_url = reverse_lazy("consus:item_list")
-    fields      = ["name", "item_type", "location", "comment", ]
+    form_class  = ItemForm
     template_name = "consus/item_edit.html"
 
     def form_valid(self, form):
