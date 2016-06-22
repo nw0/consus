@@ -23,8 +23,8 @@
         </tbody>
     </table>
 </div>
-<div class="embed-responsive embed-responsive-16by9">
-    <iframe class="embed-responsive-item" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="{% url 'consus:location_tree' %}" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+<div class="row">
+    <iframe style="width: 100%; height: 100%; border: 0;" sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="{% url 'consus:location_tree' %}" marginwidth="0" marginheight="0" scrolling="no"></iframe>
 </div>
 {% else %}
 <p>No locations.</p>
