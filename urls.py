@@ -38,6 +38,11 @@ urlpatterns = [
             name="location_list_json",
         ),
 
+    url (   r'^dump/$',
+            views.export_data,
+            name="dump",
+        ),
+
     url (   r'^locations/(?P<pk>\d+)/$',
             views.LocationDetail.as_view(),
             name="location_detail",

@@ -33,6 +33,30 @@ def extract_locations(locs, get_items=False):
                     "children": child_items + child_locs})
     return ans
 
+def dump_item(it):
+    return {
+        'name': it.name,
+        'item_type': it.item_type,
+        'comment': it.comment,
+    }
+
+def dump_loc(loc):
+    return {
+        'name': str(loc.name),
+        'comment': str(loc.comment),
+        'sublocs': [dump_loc(sl) for sl in Location.objects.filter(parent=loc)],
+        'items': [dump_item(i) for i in Item.objects.filter(location=loc)],
+    }
+
+@login_required
+@user_passes_test(other_checks)
+def export_data(request):
+    loc_list = list(Location.objects.filter(owner=request.user, parent=None))
+    ans = []
+    for loc in loc_list:
+        ans.append(dump_loc(loc))
+    return HttpResponse(json.dumps(ans))
+
 @login_required
 @user_passes_test(other_checks)
 def LocationListJSON(request):
