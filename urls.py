@@ -43,6 +43,11 @@ urlpatterns = [
             name="dump",
         ),
 
+    url (   r'^import/$',
+            views.import_data,
+            name="import",
+        ),
+
     url (   r'^locations/(?P<pk>\d+)/$',
             views.LocationDetail.as_view(),
             name="location_detail",

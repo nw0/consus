@@ -9,7 +9,7 @@ from django.views import generic
 import json
 
 from .admin import other_checks
-from .forms import LocationForm, ItemForm
+from .forms import LocationForm, ItemForm, ImportForm
 from .models import Location, Item
 
 decs = [ login_required, user_passes_test(other_checks), ]
@@ -56,6 +56,35 @@ def export_data(request):
     for loc in loc_list:
         ans.append(dump_loc(loc))
     return HttpResponse(json.dumps(ans))
+
+def import_item(di, owner, loc):
+    i = Item(name=di['name'], item_type=di['item_type'], comment=di['comment'], location=loc, owner=owner)
+    i.save()
+
+def import_loc(ld, owner, parent=None):
+    l = Location(name=ld['name'], comment=ld['comment'], parent=parent, owner=owner)
+    l.save()
+    for sl in ld['sublocs']:
+        import_loc(sl, owner, l)
+    for i in ld['items']:
+        import_item(i, owner, l)
+
+def handle_import(f, user):
+    j = json.loads(f.read().decode('utf-8'))
+    for loc in j:
+        import_loc(loc, user)
+
+@login_required
+@user_passes_test(other_checks)
+def import_data(request):
+    if request.method == 'POST':
+        form = ImportForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_import(request.FILES['file'], request.user)
+            return HttpResponse("Success")
+    else:
+        form = ImportForm()
+    return render(request, 'consus/import.html', {'form': form})
 
 @login_required
 @user_passes_test(other_checks)

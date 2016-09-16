@@ -1,0 +1,15 @@
+{% extends "consus/base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+<h1>Import data</h1>
+<div class="col-lg-4">
+    <form method="post" action="{% url 'consus:import' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button type="submit" class="btn btn-primary">Import</button>
+        {% endbuttons %}
+    </form>
+</div>
+{% endblock content %}

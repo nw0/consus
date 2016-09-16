@@ -17,3 +17,6 @@ class ItemForm(forms.ModelForm):
     class Meta:
         model   = Item
         fields  = ["name", "item_type", "location", "comment", ]
+
+class ImportForm(forms.Form):
+    file = forms.FileField()
