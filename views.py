@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse
@@ -114,9 +115,16 @@ class LocationCreate(generic.edit.CreateView):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
+
+        if "_add_another" in self.request.POST:
+            self.success_url = reverse('consus:location_create')
+        form.instance.save()
+        messages.success(self.request, "Added %s" % form.instance)
         return super(LocationCreate, self).form_valid(form)
 
     def get_success_url(self):
+        if self.success_url:
+            return self.success_url
         return reverse("consus:location_detail", args=[self.object.id])
 
 
@@ -149,6 +157,11 @@ class ItemCreate(generic.edit.CreateView):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
+
+        if "_add_another" in self.request.POST:
+            self.success_url = reverse('consus:item_create')
+        form.instance.save()
+        messages.success(self.request, "Added %s" % form.instance)
         return super(ItemCreate, self).form_valid(form)
 
 @method_decorator(decs, name='dispatch')
