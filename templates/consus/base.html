@@ -2,29 +2,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="description" content="Consus: item management system">
-    <meta name="keywords" content="">
-    <meta name="author" content="Nicholas Sim">
-    <title>{% block title %}Consus{% endblock title %}</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Consus: item management system">
+  <meta name="keywords" content="">
+  <meta name="author" content="Nicholas Sim">
+  <title>{% block title %}Consus{% endblock title %}</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    {% block scripts %}{% endblock %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  {% block scripts %}{% endblock %}
 </head>
 
 <body style="padding-top: 70px; padding-bottom: 30px">
-    {% include 'consus/nav.html' %}
+  {% include 'consus/nav.html' %}
 
-    <div class="container" role="main">
-        <div class="row">
-            {% block content %}
-            {% endblock content %}
-        </div>
-
-        <hr>
-        <footer class="footer">
-            <p><a href="https://github.com/nw0/consus/">Consus on Github</a></p>
-        </footer>
+  <div class="container" role="main">
+    <div class="row">
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% block content %}
+      {% endblock content %}
     </div>
+
+    <hr>
+    <footer class="footer">
+      <p><a href="https://github.com/nw0/consus/">Consus on Github</a></p>
+    </footer>
+  </div>
 </body>
 </html>
