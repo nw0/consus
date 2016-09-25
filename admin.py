@@ -6,4 +6,5 @@ admin.site.register(Location)
 admin.site.register(Item)
 
 def other_checks(user):
-    return user.groups.filter(name="Consus Users")
+    return True
+    #return user.groups.filter(name="Consus Users")
